@@ -6,18 +6,23 @@ require('dotenv').config();
 // POST /api/auth/register
 exports.register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const user = await User.create({ 
+      name, 
+      email, 
+      password: hashedPassword,
+      role: role || 'user' // Allow setting role during registration
+    });
 
     res.status(201).json({
       message: 'User registered successfully.',
-      user: { id: user.id, name: user.name, email: user.email }
+      user: { id: user.id, name: user.name, email: user.email, role: user.role }
     });
   } catch (error) {
     // Sequelize validation errors
