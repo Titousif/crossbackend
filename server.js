@@ -10,7 +10,7 @@ const authRoutes = require('./routes/authRoutes');
 const app = express();
 // ─── CORS Configuration ───────────────────────────────────────
 app.use(cors({
-  origin: 'http://localhost:5173', // Your Vite frontend URL
+  origin: ['http://localhost:5173', 'https://crossfrontend-titousifs-projects.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
