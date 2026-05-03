@@ -24,6 +24,13 @@ const Product = sequelize.define('Product', {
     allowNull: false,
     defaultValue: 'general'
   },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isUrl: { msg: 'Image must be a valid URL.' }
+    }
+  },
   // Criterion 5 — stock management
   stock: {
     type: DataTypes.INTEGER,
