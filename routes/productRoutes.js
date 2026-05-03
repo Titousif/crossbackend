@@ -10,5 +10,6 @@ router.get('/:id', productController.getProductById);
 
 // Protected routes (JWT required)
 router.post('/', auth, productController.createProduct);
+router.put('/:id', auth, productController.updateProduct);
 
 module.exports = router;
