@@ -88,7 +88,18 @@ exports.seedProducts = async (req, res) => {
       { title: 'Câble HDMI 2m', image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80', price: 12.99, category: 'electronics', stock: 70, description: '4K HDMI cable' }
     ];
 
-    await Product.bulkCreate(products, { ignoreDuplicates: true });
+    for (const productData of products) {
+      const [item, created] = await Product.findOrCreate({
+        where: { title: productData.title },
+        defaults: productData
+      });
+
+      if (!created && !item.image && productData.image) {
+        item.image = productData.image;
+        await item.save();
+      }
+    }
+
     res.status(201).json({ message: `${products.length} products seeded successfully!` });
   } catch (error) {
     res.status(500).json({ error: 'Seeding failed.', details: error.message });
